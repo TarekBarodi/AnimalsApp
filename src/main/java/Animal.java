@@ -4,6 +4,12 @@ public class Animal
     private String name;
     private int birthYear;
 
+
+    public String toString()
+    {
+        String animalListAsString = this.getType() + "," + this.getName() + "," + this.getBirthYear() + "\n";
+    }
+
     public String getType() {
         return type;
     }

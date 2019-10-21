@@ -1,4 +1,4 @@
-public enum FilterOptiongit
+public enum FilterOptions
 {
     TYPE,
     NAME,

@@ -1,3 +1,4 @@
+import java.io.IOException;
 import java.nio.file.Paths;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -7,20 +8,25 @@ import java.util.stream.Collectors;
 
 public class Main
 {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         List <Animal> animals;
         animals = readAnimalFromCSV();
 
-        //
-        List<Animal> sortedTasks = animals.stream().sorted(Comparator.comparing(Animal::getName)).collect(Collectors.toList());
+        // sorting
+        List<Animal> sortedAnimals = animals.stream().sorted(Comparator.comparing(Animal::getName)).collect(Collectors.toList());
 
-        printListOfAnimals(animals);
+        printListOfAnimals(sortedAnimals);
 
     }
 
-    private static void printListOfAnimals(List<Animal> animals)
+    /***
+     * printing all the animal which excist in the list (not from file because the data already moved to the list)
+     * @param animals list of the animals pass to print
+     */
+    public static void printListOfAnimals(List<Animal> animals)
     {
         for (Animal animal : animals)
+            System.out.println(animal.getType() + "," + animal.getName() + "," + animal.getBirthYear());
 
     }
 
@@ -30,15 +36,15 @@ public class Main
      * 0-9 otherwise the entire entry will be invalid and object will not be created and no object will be added to
      * the list.
      * add the file to a list and return it.
-     * @return
+     * @return List<Animal>
      */
-    public static List<Animal> readAnimalFromCSV()
-    {
+    public static List<Animal> readAnimalFromCSV() throws IOException {
         // create a list to contain all animals objects
         List<Animal> list = new ArrayList<>();
 
         // Scanner is to read the file line by line.
-        Scanner scannerFile = new Scanner(Paths.get("/Users/tarekbarodi/Desktop/hashTable.project");
+
+        Scanner scannerFile = new Scanner(Paths.get("/Users/tarekbarodi/Desktop/AnimalsApp/Animals.csv"));
 
         // read line by line, continue reading the file till the end.
         while (scannerFile.hasNextLine()) {
@@ -52,14 +58,14 @@ public class Main
 
             // extracting the dat items as strings to local variables
             String type = scannerLine.next();
-            String name = scannerFile.next();
-            String strYear = scannerFile.next();
+            String name = scannerLine.next();
+            String strYear = scannerLine.next();
 
             // no animal to be created or added to the list unless the yea of the birth is a valid year
             if (isValidYear(strYear)) {
 
                 // Declare animal without intiation and this will initiate is done because all local variable to be initiated as per compiler that is why null is a must
-                Animal animal = null;
+                Animal animal;
 
                 switch (type) {
                     case "golden retriever":
@@ -117,14 +123,14 @@ public class Main
                 }
         }
 
+        return list;
     }
 
 
-    /**
+    /***
      * A valid year should 4 characters and is equal or before today's date.
-     * @param strYear
-     * @return
-     * @throws ParseException
+     * @param strYear the year as string
+     * @return boolean
      */
     private static boolean isValidYear(String strYear) {
         // trimming all spaces before and after the string.
@@ -136,7 +142,6 @@ public class Main
         // remove all characters which are not decimal 0 and 9.
         strYear = strYear.replaceAll("[^0-9,]", "");
 
-        boolean isValid = false;
 
         try {
             // if the remaining decimal characters are exactly four
@@ -146,16 +151,11 @@ public class Main
                 Date birthDate = dateFormat.parse(strYear + "-01-01");
                 Date todayDate = new Date();
 
-                if (birthDate.before(todayDate)) {
-                    return true;
-                } else {
-                    return false;
-                }
+                return birthDate.before(todayDate);
             } else {
                 return false;
             }
         }
-
         catch (ParseException e) {
             return false;
         }

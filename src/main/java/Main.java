@@ -17,6 +17,34 @@ public class Main
 
         printListOfAnimals(sortedAnimals);
 
+        //List<Animal> filterAnimalList = filteredAnimalList (animals, FilterOptions.TYPE, "shark");
+
+    }
+
+    /**
+     * This method return the filtered list by type, name or year of birth
+     * (for year of birth we we convert text into integer)
+     * @param animals  the list of the animals which we search in
+     * @param filterOption determine the type, name, year
+     * @param text look up in specific field
+     * @return
+     */
+    public static List<Animal> filteredAnimalList(List<Animal> animals, FilterOptions filterOption, String text)
+    {
+        List<Animal> filteredAnimals = null;
+        switch (filterOption)
+        {
+            case TYPE:
+                filteredAnimals = animals.stream().filter(a -> a.getType().contains(text)).collect(Collectors.toList());
+                break;
+            case NAME:
+                filteredAnimals = animals.stream().filter(a -> a.getName().contains(text)).collect(Collectors.toList());
+                break;
+            case YEAR:
+                filteredAnimals = animals.stream().filter(a -> a.getBirthYear()==Integer.parseInt(text)).collect(Collectors.toList());
+                break;
+        }
+        return filteredAnimals;
     }
 
     /***

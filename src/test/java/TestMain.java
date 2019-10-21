@@ -8,6 +8,46 @@ import static junit.framework.TestCase.*;
 
 public class TestMain
 {
+
+    @Test
+    public void testFilteredAnimalListFail() throws IOException {
+        List<Animal> animalList;
+
+        animalList = Main.readAnimalFromCSV();
+
+        List<Animal> filteredList = Main.filteredAnimalList(animalList, FilterOptions.TYPE, "lion");
+
+        String filteredString = "";
+        if (filteredList.isEmpty()) {
+            filteredString = "";
+        } else {
+            filteredString = filteredList.get(0).toString();
+        }
+
+        String record = "";
+
+        assertTrue(filteredString.equals(record));
+    }
+
+    @Test
+    public void testFilteredAnimalListSuccess() throws IOException {
+        List <Animal> animalList;
+
+        animalList = Main.readAnimalFromCSV();
+
+        List <Animal> filteredList = Main.filteredAnimalList(animalList,FilterOptions.TYPE, "har");
+
+        String filteredString = filteredList.get(0).toString();
+        String record = "great white shark,jaws,2005\n";
+
+        assertTrue(filteredString.equals(record));
+
+
+    }
+
+
+
+
     @Test
     public void testPrintListOfAnimalsToPrintListOfAnimals() throws IOException
     {

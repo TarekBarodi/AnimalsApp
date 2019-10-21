@@ -4,6 +4,17 @@ public class Animal
     private String name;
     private int birthYear;
 
+
+    /***
+     * Returning the field values combined on one string
+     * @return s string combine all field values
+     */
+    public String toString()
+    {
+        String animalListAsString = this.getType() + "," + this.getName() + "," + this.getBirthYear() + "\n";
+        return animalListAsString;
+    }
+
     public String getType() {
         return type;
     }

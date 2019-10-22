@@ -1,4 +1,2 @@
-public class BengalCat extends Animal
-{
-
+public class BengalCat extends Animal {
 }
